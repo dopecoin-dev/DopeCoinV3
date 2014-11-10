@@ -1,0 +1,9 @@
+Building Dopecoin
+
+See doc/readme-qt.rst for instructions on building Dopecoin QT,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of Dopecoin.
+
+See doc/build-*.txt for instructions on building Dopecoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of Dopecoin.
