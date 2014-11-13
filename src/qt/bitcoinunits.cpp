@@ -90,10 +90,10 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case BTC: return 6;
-    case mBTC: return 3;
-    case uBTC: return 0;
-    default: return 0;
+        case BTC: return 8;
+        case mBTC: return 5;
+        case uBTC: return 2;
+        default: return 0;
     }
 }
 

@@ -39,6 +39,7 @@ class BitcoinGUI : public QMainWindow
 public:
     explicit BitcoinGUI(QWidget *parent = 0);
     ~BitcoinGUI();
+    QMenu * createPopupMenu();
 
     /** Set the client model.
         The client model represents the part of the core that communicates with the P2P network, and is wallet-agnostic.

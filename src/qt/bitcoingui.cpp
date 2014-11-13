@@ -239,6 +239,10 @@ BitcoinGUI::~BitcoinGUI()
 #endif
 }
 
+QMenu * BitcoinGUI::createPopupMenu () {
+    return NULL;
+}
+
 void BitcoinGUI::createActions()
 {
     QActionGroup *tabGroup = new QActionGroup(this);

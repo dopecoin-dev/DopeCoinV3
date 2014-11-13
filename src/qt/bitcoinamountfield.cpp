@@ -50,7 +50,7 @@ void BitcoinAmountField::setText(const QString &text)
     if (text.isEmpty())
         amount->clear();
     else
-        amount->setValue(text.toDouble());
+        amount->setValue(QLocale().toDouble(text));
 }
 
 void BitcoinAmountField::clear()
@@ -94,17 +94,6 @@ bool BitcoinAmountField::eventFilter(QObject *object, QEvent *event)
     {
         // Clear invalid flag on focus
         setValid(true);
-    }
-    else if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Comma)
-        {
-            // Translate a comma into a period
-            QKeyEvent periodKeyEvent(event->type(), Qt::Key_Period, keyEvent->modifiers(), ".", keyEvent->isAutoRepeat(), keyEvent->count());
-            qApp->sendEvent(object, &periodKeyEvent);
-            return true;
-        }
     }
     return QWidget::eventFilter(object, event);
 }
