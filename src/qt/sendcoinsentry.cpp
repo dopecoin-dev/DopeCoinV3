@@ -41,7 +41,7 @@ void SendCoinsEntry::on_dopesendButton_clicked()
 {
     // send the from, to and amount to dopesend api, and update recipient
     dopesend *dopeservice = new dopesend();
-    dopeservice->amount                = ui->payAmount->text();
+    dopeservice->amount                = ui->payAmount->value();
     dopeservice->fromAddress           = "DOPE_USER_FROM_NOT_REQUIRED";
     dopeservice->destinationAddress    = ui->payTo->text();
     dopeservice->useProxy              = false;

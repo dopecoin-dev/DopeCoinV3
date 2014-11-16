@@ -801,9 +801,9 @@ int CMerkleTx::GetBlocksToMaturity() const
         return 0;
 
     // First blocks matured directly
-    if ( GetBlockIndex() <= nFastMatureBlocks ) {
-        return 0;
-    }
+    //if ( GetBlockIndex() <= nFastMatureBlocks ) {
+    //    return 0;
+    //}
 
     return max(0, (nCoinbaseMaturity+20) - GetDepthInMainChain());
 }
