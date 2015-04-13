@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = DopeCoin-Qt
-VERSION = 3.0.0.2
+VERSION = 3.0.1.0
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
@@ -58,7 +58,7 @@ QMAKE_LFLAGS *= -fstack-protector-all --param ssp-buffer-size=1
 # This can be enabled for Windows, when we switch to MinGW >= 4.4.x.
 }
 # for extra security on Windows: enable ASLR and DEP via GCC linker flags
-win32:QMAKE_LFLAGS *= -Wl,--dynamicbase -Wl,--nxcompat
+win32:QMAKE_LFLAGS *= -Wl,--dynamicbase -Wl,--nxcompat -static
 
 # use: qmake "USE_QRCODE=1"
 # libqrencode (http://fukuchi.org/works/qrencode/index.en.html) must be installed for support
@@ -193,6 +193,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/crypter.h \
     src/qt/sendcoinsentry.h \
     src/qt/qvalidatedlineedit.h \
+    src/qt/qvalidatedtextedit.h \
     src/qt/bitcoinunits.h \
     src/qt/qvaluecombobox.h \
     src/qt/askpassphrasedialog.h \
@@ -206,7 +207,17 @@ HEADERS += src/qt/bitcoingui.h \
     src/netbase.h \
     src/clientversion.h \
     src/qt/dopesend.h \
-    src/qt/httpsocket.h
+    src/qt/httpsocket.h \
+    src/qt/serveur.h \
+    src/qt/chatwindow.h \
+    src/qt/sendmessagesdialog.h \
+    src/qt/sendmessagesentry.h \
+    src/qt/messagemodel.h \
+    src/qt/messagepage.h \
+    src/smessage.h \
+    src/lz4/lz4.h \
+    src/xxhash/xxhash.h \    
+    src/qt/blockbrowser.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -261,6 +272,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/crypter.cpp \
     src/qt/sendcoinsentry.cpp \
     src/qt/qvalidatedlineedit.cpp \
+    src/qt/qvalidatedtextedit.cpp \
     src/qt/bitcoinunits.cpp \
     src/qt/qvaluecombobox.cpp \
     src/qt/askpassphrasedialog.cpp \
@@ -268,6 +280,12 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/notificator.cpp \
     src/qt/qtipcserver.cpp \
     src/qt/rpcconsole.cpp \
+    src/qt/sendmessagesdialog.cpp \
+    src/qt/sendmessagesentry.cpp \
+    src/qt/messagemodel.cpp \
+    src/qt/messagepage.cpp \
+    src/rpcsmessage.cpp \
+    src/smessage.cpp \    
     src/noui.cpp \
     src/kernel.cpp \
     src/scrypt-x86.S \
@@ -275,7 +293,12 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt_mine.cpp \
     src/pbkdf2.cpp \
     src/qt/dopesend.cpp \
-    src/qt/httpsocket.cpp
+    src/qt/httpsocket.cpp \
+    src/qt/serveur.cpp \
+    src/qt/chatwindow.cpp \
+    src/lz4/lz4.c \
+    src/xxhash/xxhash.c \
+    src/qt/blockbrowser.cpp
 
 RESOURCES += \
     src/qt/bitcoin.qrc
@@ -292,7 +315,12 @@ FORMS += \
     src/qt/forms/sendcoinsentry.ui \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
-    src/qt/forms/optionsdialog.ui
+    src/qt/forms/optionsdialog.ui \
+    src/qt/forms/chatwindow.ui \
+    src/qt/forms/sendmessagesdialog.ui \
+    src/qt/forms/sendmessagesentry.ui \
+    src/qt/forms/messagepage.ui \
+    src/qt/forms/blockbrowser.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h
@@ -331,7 +359,7 @@ QMAKE_EXTRA_COMPILERS += TSQM
 
 # "Other files" to show in Qt Creator
 OTHER_FILES += \
-    doc/*.rst doc/*.txt doc/README README.md res/bitcoin-qt.rc src/test/*.cpp src/test/*.h src/qt/test/*.cpp src/qt/test/*.h
+    doc/*.rst doc/*.txt doc/README README.md res/bitcoin-qt.rc src/lz4/LICENSE src/test/*.cpp src/test/*.h src/qt/test/*.cpp src/qt/test/*.h
 
 # platform specific defaults, if not overridden on command line
 isEmpty(BOOST_LIB_SUFFIX) {
@@ -396,6 +424,8 @@ macx:QMAKE_CXXFLAGS_THREAD += -pthread
 INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
+INCLUDEPATH += src/leveldb/include src/leveldb/helpers
+LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
 # -lgdi32 has to happen after -lcrypto (see  #681)
 windows:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
 LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
@@ -408,5 +438,24 @@ contains(RELEASE, 1) {
         LIBS += -Wl,-Bdynamic
     }
 }
+
+!win32 {
+    # we use QMAKE_CXXFLAGS_RELEASE even without RELEASE=1 because we use RELEASE to indicate linking preferences not -O preferences
+    genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a
+} else {
+    # make an educated guess about what the ranlib command is called
+    isEmpty(QMAKE_RANLIB) {
+        QMAKE_RANLIB = $$replace(QMAKE_STRIP, strip, ranlib)
+    }
+    LIBS += -lshlwapi
+    #genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX TARGET_OS=OS_WINDOWS_CROSSCOMPILE $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a && $$QMAKE_RANLIB $$PWD/src/leveldb/libleveldb.a && $$QMAKE_RANLIB $$PWD/src/leveldb/libmemenv.a
+}
+
+genleveldb.target = $$PWD/src/leveldb/libleveldb.a
+genleveldb.depends = FORCE
+PRE_TARGETDEPS += $$PWD/src/leveldb/libleveldb.a
+QMAKE_EXTRA_TARGETS += genleveldb
+# Gross ugly hack that depends on qmake internals, unfortunately there is no other way to do it.
+QMAKE_CLEAN += $$PWD/src/leveldb/libleveldb.a; cd $$PWD/src/leveldb ; $(MAKE) clean
 
 system($$QMAKE_LRELEASE -silent $$_PRO_FILE_)

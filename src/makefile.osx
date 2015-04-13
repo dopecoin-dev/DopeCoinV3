@@ -123,6 +123,14 @@ endif
 
 all: dopecoind
 
+LIBS += $(CURDIR)/leveldb/libleveldb.a $(CURDIR)/leveldb/libmemenv.a
+DEFS += $(addprefix -I,$(CURDIR)/leveldb/include)
+DEFS += $(addprefix -I,$(CURDIR)/leveldb/helpers)
+OBJS += obj/txdb-leveldb.o
+leveldb/libleveldb.a:
+	@echo "Building LevelDB ..."; cd leveldb; make; cd ..
+obj/txdb-leveldb.o: leveldb/libleveldb.a
+
 test check: test_dopecoin FORCE
 	./test_dopecoin
 

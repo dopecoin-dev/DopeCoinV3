@@ -18,6 +18,9 @@ using namespace std;
 extern int nStakeMaxAge;
 extern int nStakeMinAgeNew;
 
+unsigned int nStakeSplitAge = (60 * 60 * 24 * 30);
+int64_t nStakeCombineThreshold = 5000 * COIN;
+int64_t nStakeSplitThreshold   = 5000 * COIN;
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -107,7 +110,10 @@ bool CWallet::Unlock(const SecureString& strWalletPassphrase)
             if (!crypter.Decrypt(pMasterKey.second.vchCryptedKey, vMasterKey))
                 return false;
             if (CCryptoKeyStore::Unlock(vMasterKey))
+            {
+                SecureMsgWalletUnlocked();
                 return true;
+            }
         }
     }
     return false;
@@ -1012,6 +1018,21 @@ int64 CWallet::GetImmatureBalance() const
     return nTotal;
 }
 
+int64 CWallet::GetMintedBalance() const
+{
+    int64 nTotal = 0;
+    {
+        LOCK(cs_wallet);
+        for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
+        {
+            const CWalletTx& pcoin = (*it).second;
+            if (pcoin.IsCoinStake())
+                nTotal += pcoin.GetValueOut()-GetDebit(pcoin);
+        }
+    }
+    return nTotal;
+}
+
 // populate vCoins with vector of spendable COutputs
 void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const CCoinControl *coinControl) const
 {
@@ -1441,11 +1462,12 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 {
     // The following split & combine thresholds are important to security
     // Should not be adjusted if you don't understand the consequences
-    static unsigned int nStakeSplitAge = (60 * 60 * 24 * 30);
+//    static unsigned int nStakeSplitAge = (60 * 60 * 24 * 30);
+
 	const CBlockIndex* pIndex0 = GetLastBlockIndex(pindexBest, false);
-    int64 nCombineThreshold = 0;
-	if(pIndex0->pprev)
-		nCombineThreshold = GetProofOfWorkReward(pIndex0->nHeight, MIN_TX_FEE, pIndex0->pprev->GetBlockHash(), pIndex0->nTime) / 3;
+//    int64 nCombineThreshold = 0;
+//	if(pIndex0->pprev)
+//		nCombineThreshold = GetProofOfWorkReward(pIndex0->nHeight, MIN_TX_FEE, pIndex0->pprev->GetBlockHash(), pIndex0->nTime) * 10;
 
     CBigNum bnTargetPerCoinDay;
     bnTargetPerCoinDay.SetCompact(nBits);
@@ -1456,6 +1478,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     CScript scriptEmpty;
     scriptEmpty.clear();
     txNew.vout.push_back(CTxOut(0, scriptEmpty));
+
     // Choose coins to use
     int64 nBalance = GetBalance();
     int64 nReserveBalance = 0;
@@ -1574,7 +1597,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 
                 vwtxPrev.push_back(pcoin.first);
                 txNew.vout.push_back(CTxOut(0, scriptPubKeyOut));
-                if (block.GetBlockTime() + nStakeSplitAge > txNew.nTime)
+                if (nCredit > nStakeSplitThreshold)
                     txNew.vout.push_back(CTxOut(0, scriptPubKeyOut)); //split stake
 
                 if (fDebug && GetBoolArg("-printcoinstake"))
@@ -1599,21 +1622,24 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
         if (txNew.vout.size() == 2 && ((pcoin.first->vout[pcoin.second].scriptPubKey == scriptPubKeyKernel || pcoin.first->vout[pcoin.second].scriptPubKey == txNew.vout[1].scriptPubKey))
             && pcoin.first->GetHash() != txNew.vin[0].prevout.hash)
         {
+            int64_t nTimeWeight = GetWeight((int64_t)pcoin.first->nTime, (int64_t)txNew.nTime);
+
             // Stop adding more inputs if already too many inputs
             if (txNew.vin.size() >= 100)
                 break;
             // Stop adding more inputs if value is already pretty significant
-            if (nCredit > nCombineThreshold)
+            if (nCredit >= nStakeCombineThreshold)
                 break;
             // Stop adding inputs if reached reserve limit
             if (nCredit + pcoin.first->vout[pcoin.second].nValue > nBalance - nReserveBalance)
                 break;
             // Do not add additional significant input
-            if (pcoin.first->vout[pcoin.second].nValue > nCombineThreshold)
+            if (pcoin.first->vout[pcoin.second].nValue >= nStakeCombineThreshold)
                 continue;
             // Do not add input that is still too young
-            if (pcoin.first->nTime + nStakeMaxAge > txNew.nTime)
+            if (nTimeWeight < nStakeMinAge)
                 continue;
+
             txNew.vin.push_back(CTxIn(pcoin.first->GetHash(), pcoin.second));
             nCredit += pcoin.first->vout[pcoin.second].nValue;
             vwtxPrev.push_back(pcoin.first);

@@ -12,13 +12,13 @@ INCLUDEPATHS= \
  -I"$(CURDIR)"/obj \
  -I"$(DEPSDIR)/boost_1_50_0" \
  -I"$(DEPSDIR)/db-4.8.30.NC/build_unix" \
- -I"$(DEPSDIR)/openssl-1.0.1c/include" \
+ -I"$(DEPSDIR)/openssl-1.0.2/include" \
  -I"$(DEPSDIR)"
 
 LIBPATHS= \
  -L"$(DEPSDIR)/boost_1_50_0/stage/lib" \
  -L"$(DEPSDIR)/db-4.8.30.NC/build_unix" \
- -L"$(DEPSDIR)/openssl-1.0.1c"
+ -L"$(DEPSDIR)/openssl-1.0.2"
 
 LIBS= \
  -l boost_system-mt-s \
@@ -77,6 +77,7 @@ OBJS= \
     obj/rpcwallet.o \
     obj/rpcblockchain.o \
     obj/rpcrawtransaction.o \
+    obj/rpcsmessage.o \
     obj/script.o \
     obj/sync.o \
     obj/util.o \
@@ -87,9 +88,18 @@ OBJS= \
     obj/pbkdf2.o \
     obj/scrypt_mine.o \
     obj/scrypt-x86.o \
-    obj/scrypt-x86_64.o
+    obj/scrypt-x86_64.o \
+    obj/smessage.o
 
 all: dopecoind.exe
+
+LIBS += $(CURDIR)/leveldb/libleveldb.a $(CURDIR)/leveldb/libmemenv.a
+DEFS += -I"$(CURDIR)/leveldb/include"
+DEFS += -I"$(CURDIR)/leveldb/helpers"
+OBJS += obj/txdb-leveldb.o
+leveldb/libleveldb.a:
+	@echo "Building LevelDB ..." && cd leveldb && CC=$(CC) CXX=$(CXX) TARGET_OS=OS_WINDOWS_CROSSCOMPILE CXXFLAGS="-I$(INCLUDEPATHS)" LDFLAGS="-L$(LIBPATHS)" $(MAKE) libleveldb.a libmemenv.a && $(RANLIB) libleveldb.a && $(RANLIB) libmemenv.a && cd ..
+obj/txdb-leveldb.o: leveldb/libleveldb.a
 
 obj/build.h: FORCE
 	/bin/sh ../share/genbuild.sh obj/build.h
@@ -122,5 +132,6 @@ clean:
 	-rm -f obj-test/*.o
 	-rm -f test_dopecoin.exe
 	-rm -f obj/build.h
+    cd leveldb && TARGET_OS=OS_WINDOWS_CROSSCOMPILE $(MAKE) clean && cd ..
 
 FORCE:

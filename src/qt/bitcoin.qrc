@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/icons">
         <file alias="bitcoin">res/icons/bitcoin.png</file>
+        <file alias="chat">res/icons/chat.png</file>
+        <file alias="blocks">res/icons/blocks.png</file>
         <file alias="address-book">res/icons/address-book.png</file>
         <file alias="quit">res/icons/quit.png</file>
         <file alias="send">res/icons/send.png</file>
@@ -41,6 +43,8 @@
         <file alias="qrcode">res/icons/qrcode.png</file>
         <file alias="debugwindow">res/icons/debugwindow.png</file>
         <file alias="minting">res/icons/mining.png</file>
+        <file alias="smessage">res/icons/smessage.png</file>
+        <file alias="back">res/icons/back.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>

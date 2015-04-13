@@ -243,7 +243,71 @@
              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
             </property>
            </widget>
+          </item>                   
+          <item row="4" column="0">
+           <widget class="QLabel" name="labelMintedText">
+            <property name="styleSheet">
+             <string notr="true">QLabel { border:none; color: #3B3A3A;}</string>
+            </property>
+            <property name="text">
+             <string>Total minted:</string>
+            </property>
+           </widget>
           </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="labelMinted">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>Total number of coins made by POS</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel { color: #2C590C; border: none; }</string>
+            </property>
+            <property name="text">
+             <string notr="true">0 DOPE</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+            </property>
+           </widget>
+          </item> 
+          <item row="5" column="0">
+           <widget class="QLabel" name="labelTotalText">
+            <property name="styleSheet">
+             <string notr="true">QLabel { border:none; color: #3B3A3A;}</string>
+            </property>
+            <property name="text">
+             <string>Total balance:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLabel" name="labelTotal">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>Your current total balance</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel { color: #2C590C; border: none; }</string>
+            </property>
+            <property name="text">
+             <string notr="true">0 DOPE</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+            </property>
+           </widget>
+          </item>                                        
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="styleSheet">
