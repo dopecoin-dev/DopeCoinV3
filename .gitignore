@@ -16,3 +16,5 @@ dopecoind
 *.o
 *.P
 .nfs.*
+src/obj
+Makefile
