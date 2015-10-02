@@ -1,5 +1,4 @@
 .idea
-Makefile
 *.pro.user
 *.pro.user.*
 release
@@ -16,5 +15,6 @@ object_script.Dopecoin-qt.Release
 dopecoind
 *.o
 *.P
-src/obj
 .nfs.*
+src/obj
+Makefile
