@@ -94,6 +94,9 @@ public:
     MasterKeyMap mapMasterKeys;
     unsigned int nMasterKeyMaxID;
 
+	uint64 nStakeSplitThreshold;
+	uint64 nStakeCombineThreshold;
+	
     CWallet()
     {
         nWalletVersion = FEATURE_BASE;
@@ -102,6 +105,8 @@ public:
         nMasterKeyMaxID = 0;
         pwalletdbEncryption = NULL;
         nOrderPosNext = 0;
+		nStakeSplitThreshold = 5000;
+		nStakeCombineThreshold = 5000;
     }
     CWallet(std::string strWalletFileIn)
     {
@@ -112,6 +117,8 @@ public:
         nMasterKeyMaxID = 0;
         pwalletdbEncryption = NULL;
         nOrderPosNext = 0;
+		nStakeSplitThreshold = 5000;
+		nStakeCombineThreshold = 5000;
     }
 
     std::map<uint256, CWalletTx> mapWallet;
