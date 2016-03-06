@@ -1989,21 +1989,6 @@ void CWallet::ReserveKeyFromKeyPool(int64& nIndex, CKeyPool& keypool)
     }
 }
 
-int64 CWallet::AddReserveKey(const CKeyPool& keypool)
-{
-    {
-        LOCK2(cs_main, cs_wallet);
-        CWalletDB walletdb(strWalletFile);
-
-        int64 nIndex = 1 + *(--setKeyPool.end());
-        if (!walletdb.WritePool(nIndex, keypool))
-            throw runtime_error("AddReserveKey() : writing added key failed");
-        setKeyPool.insert(nIndex);
-        return nIndex;
-    }
-    return -1;
-}
-
 void CWallet::KeepKey(int64 nIndex)
 {
     // Remove from key pool
