@@ -69,7 +69,7 @@ Value getpeerinfo(const Array& params, bool fHelp)
     return ret;
 }
  
-Value addnode(CWallet* pWallet, const Array& params, bool fHelp)
+Value addnode(const Array& params, bool fHelp)
 {
     string strCommand;
     if (params.size() == 2)
@@ -111,7 +111,7 @@ Value addnode(CWallet* pWallet, const Array& params, bool fHelp)
     return Value::null;
 }
 
-Value getaddednodeinfo(CWallet* pWallet, const Array& params, bool fHelp)
+Value getaddednodeinfo(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
