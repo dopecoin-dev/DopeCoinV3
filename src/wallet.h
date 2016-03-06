@@ -308,7 +308,7 @@ public:
     // get the current wallet format (the oldest client version guaranteed to understand this wallet)
     int GetVersion() { return nWalletVersion; }
 
-    void FixSpentCoins(int& nMismatchSpent, int64& nBalanceInQuestion, bool fCheckOnly = false);
+    void FixSpentCoins(int& nMismatchSpent, int64& nBalanceInQuestion, int& nOrphansFound, bool fCheckOnly = false);
     void DisableTransaction(const CTransaction &tx);
 
     /** Address book entry changed.
@@ -649,7 +649,9 @@ public:
             return true;
         if (!IsFromMe()) // using wtx's cached debit
             return false;
-
+			
+		/*
+		
         // If no confirmations but it's from us, we can still
         // consider it confirmed if all dependencies are confirmed
         std::map<uint256, const CMerkleTx*> mapPrev;
@@ -681,6 +683,13 @@ public:
             }
         }
         return true;
+		
+		*/
+		
+		//
+
+		return false;
+		
     }
 
     bool WriteToDisk();
