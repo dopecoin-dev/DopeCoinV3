@@ -93,8 +93,8 @@
        <property name="text">
         <string>
 Copyright © 2009-2012 Bitcoin Developers
-Copyright © 2012 PPCoin Developers
-Copyright © 2014 Dopecoin Developers
+Copyright © 2012-2016 Peercoin, Novacoin and Fluttercoin Developers
+Copyright © 2014-2016 Dopecoin Developers
 </string>
        </property>
        <property name="textInteractionFlags">

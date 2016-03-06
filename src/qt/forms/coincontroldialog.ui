@@ -57,7 +57,7 @@
          <property name="font">
           <font>
            <family>Monospace</family>
-           <pointsize>13</pointsize>
+           <pointsize>10</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -100,7 +100,7 @@
          <property name="font">
           <font>
            <family>Monospace</family>
-           <pointsize>13</pointsize>
+           <pointsize>10</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -159,7 +159,7 @@
          <property name="font">
           <font>
            <family>Monospace</family>
-           <pointsize>13</pointsize>
+           <pointsize>10</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -261,7 +261,7 @@
          <property name="font">
           <font>
            <family>Monospace</family>
-           <pointsize>13</pointsize>
+           <pointsize>10</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -310,7 +310,7 @@
          <property name="font">
           <font>
            <family>Monospace</family>
-           <pointsize>13</pointsize>
+           <pointsize>10</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -372,7 +372,7 @@
          <property name="font">
           <font>
            <family>Monospace</family>
-           <pointsize>13</pointsize>
+           <pointsize>10</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -421,7 +421,7 @@
          <property name="font">
           <font>
            <family>Monospace</family>
-           <pointsize>13</pointsize>
+           <pointsize>10</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
