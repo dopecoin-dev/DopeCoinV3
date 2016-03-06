@@ -21,7 +21,7 @@ LIBPATHS= \
  -L"$(DEPSDIR)/BerkeleyDB.4.8/lib" \
  -L"$(DEPSDIR)/opt/openssl/lib"
 
-USE_UPNP:=1
+USE_UPNP:=-
 
 LIBS= -dead_strip
 
