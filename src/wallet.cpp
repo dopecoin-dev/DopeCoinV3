@@ -1298,7 +1298,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                     return false;
                 BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setCoins)
                 {
-                    uint64 nCredit = pcoin.first->vout[pcoin.second].nValue;
+                    int64_t nCredit = pcoin.first->vout[pcoin.second].nValue;
                     dPriority += (double)nCredit * pcoin.first->GetDepthInMainChain();
                 }
 
@@ -1464,7 +1464,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     // Should not be adjusted if you don't understand the consequences
 //    static unsigned int nStakeSplitAge = (60 * 60 * 24 * 30);
 
-	const CBlockIndex* pIndex0 = GetLastBlockIndex(pindexBest, false);
+//	const CBlockIndex* pIndex0 = GetLastBlockIndex(pindexBest, false);
 //    int64 nCombineThreshold = 0;
 //	if(pIndex0->pprev)
 //		nCombineThreshold = GetProofOfWorkReward(pIndex0->nHeight, MIN_TX_FEE, pIndex0->pprev->GetBlockHash(), pIndex0->nTime) * 10;
@@ -1496,7 +1496,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     if (setCoins.empty())
         return false;
 
-    uint64 nCredit = 0;
+    int64_t nCredit = 0;
     CScript scriptPubKeyKernel;
     BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setCoins)
     {

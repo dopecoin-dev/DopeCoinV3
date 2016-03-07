@@ -94,8 +94,8 @@ public:
     MasterKeyMap mapMasterKeys;
     unsigned int nMasterKeyMaxID;
 
-	uint64 nStakeSplitThreshold;
-	uint64 nStakeCombineThreshold;
+	int64_t nStakeSplitThreshold;
+	int64_t nStakeCombineThreshold;
 	
     CWallet()
     {
