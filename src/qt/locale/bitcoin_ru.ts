@@ -1150,6 +1150,11 @@ Address: %4
         <source>&amp;Information</source>
         <translation>&amp;Информация</translation>
     </message>
+	<message>
+        <location line="295"/>
+        <source>Using BerkeleyDB version</source>
+        <translation>Используется версия BerkeleyDB</translation>
+    </message>
     <message>
         <location line="+68"/>
         <source>Using OpenSSL version</source>

@@ -13,10 +13,13 @@
 #include <QThread>
 #include <QTextEdit>
 #include <QKeyEvent>
+#if QT_VERSION < 0x050000 //presstab qt5
 #include <QUrl>
+#endif
 #include <QScrollBar>
 
 #include <openssl/crypto.h>
+#include <db_cxx.h>
 
 // TODO: make it possible to filter out categories (esp debug messages when implemented)
 // TODO: receive errors and debug messages through ClientModel
@@ -208,6 +211,7 @@ RPCConsole::RPCConsole(QWidget *parent) :
 
     // set OpenSSL version label
     ui->openSSLVersion->setText(SSLeay_version(SSLEAY_VERSION));
+	ui->berkeleyDBVersion->setText(DbEnv::version(0, 0, 0));
 
     startExecutor();
 
