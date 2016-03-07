@@ -5,6 +5,7 @@ INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
 CONFIG += thread
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32 {
 	CONFIG += static
@@ -15,6 +16,20 @@ QT += network
 
 # UNCOMMENT THIS SECTION TO BUILD ON WINDOWS
 # Change paths if needed, these use the foocoin/deps.git repository locations
+
+win32 {
+	OPENSSL_LIB_PATH = C:\deps\openssl-1.0.2g
+	OPENSSL_INCLUDE_PATH = C:\deps\openssl-1.0.2g\include
+	MINIUPNPC_INCLUDE_PATH = C:\deps
+	MINIUPNPC_LIB_PATH = C:\deps\miniupnpc
+	QRENCODE_INCLUDE_PATH = C:\deps\qrencode-3.4.4
+	QRENCODE_LIB_PATH = C:\deps\qrencode-3.4.4\.libs
+	BDB_INCLUDE_PATH = C:\deps\db-4.8.30.NC\build_unix
+	BDB_LIB_PATH = C:\deps\db-4.8.30.NC\build_unix
+	BOOST_LIB_SUFFIX=-mgw53-mt-s-1_57
+	BOOST_INCLUDE_PATH = C:\deps\boost_1_57_0
+	BOOST_LIB_PATH = C:\deps\boost_1_57_0\stage\lib
+}
 
 macx {
 	OPENSSL_LIB_PATH = /usr/local/opt/openssl/lib

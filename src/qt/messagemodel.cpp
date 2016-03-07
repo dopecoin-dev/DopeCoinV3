@@ -208,11 +208,17 @@ public:
 
     void walletUnlocked()
     {
+		#if QT_VERSION < 0x050000 //presstab qt5
         // -- wallet is unlocked, can get at the private keys now
         refreshMessageTable();
-        
         parent->reset(); // reload table view
-        
+		#else
+		parent->beginResetModel();			
+        // -- wallet is unlocked, can get at the private keys now
+        refreshMessageTable();
+		parent->endResetModel();	
+ 		#endif
+		
         if (parent->proxyModel)
         {
             parent->proxyModel->setFilterRole(false);
@@ -230,9 +236,14 @@ public:
         if (status == WalletModel::Locked)
         {
             // -- Wallet is locked, clear secure message display.
-            cachedMessageTable.clear();
-
-            parent->reset(); // reload table view
+			#if QT_VERSION < 0x050000 //presstab qt5
+			cachedMessageTable.clear();
+			parent->reset();
+			#else
+			parent->beginResetModel();			
+			cachedMessageTable.clear();
+			parent->endResetModel();	
+			#endif
         };
     };
 

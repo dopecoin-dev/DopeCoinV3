@@ -146,7 +146,11 @@ void MessagePage::setModel(MessageModel *model)
     // Set column widths
     ui->tableView->horizontalHeader()->resizeSection(MessageModel::Type,             100);
     ui->tableView->horizontalHeader()->resizeSection(MessageModel::Label,            100);
+	#if QT_VERSION < 0x050000 //presstab qt5
     ui->tableView->horizontalHeader()->setResizeMode(MessageModel::Label,            QHeaderView::Stretch);
+	#else
+    ui->tableView->horizontalHeader()->setSectionResizeMode(MessageModel::Label,     QHeaderView::Stretch);
+	#endif
     ui->tableView->horizontalHeader()->resizeSection(MessageModel::FromAddress,      320);
     ui->tableView->horizontalHeader()->resizeSection(MessageModel::ToAddress,        320);
     ui->tableView->horizontalHeader()->resizeSection(MessageModel::SentDateTime,     170);

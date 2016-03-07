@@ -155,7 +155,11 @@ void SendMessagesDialog::on_sendButton_clicked()
     QStringList formatted;
     foreach(const SendMessagesRecipient &rcp, recipients)
     {
+		#if QT_VERSION < 0x050000 //presstab qt5
         formatted.append(tr("<b>%1</b> to %2 (%3)").arg(rcp.message, Qt::escape(rcp.label), rcp.address));
+		#else
+		formatted.append(tr("<b>%1</b> to %2 (%3)").arg(rcp.message, QString(rcp.label).toHtmlEscaped(), rcp.address));
+		#endif
     }
 
     fNewRecipientAllowed = false;
