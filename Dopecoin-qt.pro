@@ -211,8 +211,6 @@ HEADERS += src/qt/bitcoingui.h \
     src/clientversion.h \
     src/qt/dopesend.h \
     src/qt/httpsocket.h \
-    src/qt/serveur.h \
-    src/qt/chatwindow.h \
     src/qt/sendmessagesdialog.h \
     src/qt/sendmessagesentry.h \
     src/qt/messagemodel.h \
@@ -297,8 +295,6 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/pbkdf2.cpp \
     src/qt/dopesend.cpp \
     src/qt/httpsocket.cpp \
-    src/qt/serveur.cpp \
-    src/qt/chatwindow.cpp \
     src/lz4/lz4.c \
     src/xxhash/xxhash.c \
     src/qt/blockbrowser.cpp
@@ -319,7 +315,6 @@ FORMS += \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
     src/qt/forms/optionsdialog.ui \
-    src/qt/forms/chatwindow.ui \
     src/qt/forms/sendmessagesdialog.ui \
     src/qt/forms/sendmessagesentry.ui \
     src/qt/forms/messagepage.ui \

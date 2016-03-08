@@ -5,7 +5,6 @@
  * The Bitcoin Developers 2011-2012
  */
 #include "bitcoingui.h"
-#include "chatwindow.h"
 #include "blockbrowser.h"
 #include "transactiontablemodel.h"
 #include "addressbookpage.h"
@@ -122,7 +121,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     toolbar->addAction(addressBookAction);
     toolbar->addAction(lockWalletToggleAction);
     toolbar->addAction(messageAction);
-    toolbar->addAction(chatAction);
     toolbar->addAction(blockAction);
     toolbar->addAction(exportAction);
     
@@ -146,8 +144,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     
     messagePage = new MessagePage(this);
     
-    chatWindow = new ChatWindow(this);
-    
     blockPage = new BlockBrowser(this);
 
     signVerifyMessageDialog = new SignVerifyMessageDialog(this);
@@ -159,7 +155,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     centralWidget->addWidget(receiveCoinsPage);
     centralWidget->addWidget(sendCoinsPage);
     centralWidget->addWidget(messagePage);
-    centralWidget->addWidget(chatWindow);
     centralWidget->addWidget(blockPage);
     setCentralWidget(centralWidget);
 
@@ -300,12 +295,6 @@ void BitcoinGUI::createActions()
     messageAction->setCheckable(true);
     messageAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_8));
     tabGroup->addAction(messageAction);
-        
-    chatAction = new QAction(QIcon(":/icons/chat"), tr("&IRC"), this);
-    chatAction->setToolTip(tr("Chat on #dopecoin"));
-    chatAction->setCheckable(true);
-    chatAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
-    tabGroup->addAction(chatAction);
     
     blockAction = new QAction(QIcon(":/icons/blocks"), tr("&Block Explorer"), this);
     blockAction->setToolTip(tr("Explore the BlockChain"));
@@ -325,8 +314,6 @@ void BitcoinGUI::createActions()
     connect(addressBookAction, SIGNAL(triggered()), this, SLOT(gotoAddressBookPage()));
     connect(messageAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(messageAction, SIGNAL(triggered()), this, SLOT(gotoMessagePage()));
-    connect(chatAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect(chatAction, SIGNAL(triggered()), this, SLOT(gotoChatPage()));
     connect(blockAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(blockAction, SIGNAL(triggered()), this, SLOT(gotoBlockPage()));
    
@@ -862,15 +849,6 @@ void BitcoinGUI::gotoAddressBookPage()
     exportAction->setEnabled(true);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
     connect(exportAction, SIGNAL(triggered()), addressBookPage, SLOT(exportClicked()));
-}
-
-void BitcoinGUI::gotoChatPage()
-{
-    chatAction->setChecked(true);
-    centralWidget->setCurrentWidget(chatWindow);
-
-    exportAction->setEnabled(false);
-    disconnect(exportAction, SIGNAL(triggered()), 0, 0);
 }
 
 void BitcoinGUI::gotoBlockPage()
