@@ -1422,7 +1422,7 @@ void ThreadOpenConnections2(void* parg)
                 break;
 
             // If we didn't find an appropriate destination after trying 100 addresses fetched from addrman,
-            // stop this loop, and let the outer while (true) //presstab qt5 run again (which sleeps, adds seed nodes, recalculates
+            // stop this loop, and let the outer while loop run again (which sleeps, adds seed nodes, recalculates
             // already-connected network ranges, ...) before trying new addrman addresses.
             nTries++;
             if (nTries > 100)
