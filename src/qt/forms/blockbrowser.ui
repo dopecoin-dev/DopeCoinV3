@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>861</width>
-    <height>473</height>
+    <height>481</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -79,6 +79,9 @@
         </property>
         <property name="inputMask">
          <string comment="Transaction ID" extracomment="Transaction ID"/>
+        </property>
+        <property name="maxLength">
+         <number>64</number>
         </property>
         <property name="placeholderText">
          <string comment="Transaction ID" extracomment="Transaction ID"/>
@@ -303,18 +306,129 @@
         <property name="spacing">
          <number>8</number>
         </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="timeLabel">
+        <item row="3" column="0">
+         <widget class="QLabel" name="hashLabel">
           <property name="styleSheet">
            <string notr="true">QLabel { border: none;}</string>
           </property>
           <property name="text">
-           <string>Block Timestamp:</string>
+           <string>Block Hash:</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="heightLabel">
+        <item row="8" column="0">
+         <widget class="QLabel" name="pawLabel">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>Block Hashrate:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLabel" name="bitsBox">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>N/A</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLabel" name="pawBox">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>N/A</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="nonceBox">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>N/A</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="hardLabel">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>Block Difficulty:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="nonceLabel">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>Block nNonce:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="bitsLabel">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>Block nBits:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLabel" name="hardBox">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>N/A</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="hashBox">
+          <property name="minimumSize">
+           <size>
+            <width>187</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>N/A</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="timeBox">
           <property name="minimumSize">
            <size>
             <width>550</width>
@@ -325,7 +439,7 @@
            <string notr="true">QLabel { border: none;}</string>
           </property>
           <property name="text">
-           <string>0</string>
+           <string>N/A</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -333,7 +447,40 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="heightLabel_2">
+         <widget class="QLabel" name="timeLabel">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>Block Timestamp:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="rewardLabel">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>Block Reward:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLabel" name="merkleBox">
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: none;}</string>
+          </property>
+          <property name="text">
+           <string>N/A</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="heightLabel2">
           <property name="styleSheet">
            <string notr="true">QLabel { border: none;}</string>
           </property>
@@ -342,8 +489,8 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="hashBox">
+        <item row="0" column="1">
+         <widget class="QLabel" name="heightBox2">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -363,120 +510,18 @@
            <string notr="true">QLabel { border: none;}</string>
           </property>
           <property name="text">
-           <string>0x0</string>
+           <string>N/A</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="hashLabel">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>Block Hash:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="pawLabel">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>Block Hashrate:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="bitsBox">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-          <property name="textInteractionFlags">
-           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLabel" name="pawBox">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>0 KH/s</string>
-          </property>
-          <property name="textInteractionFlags">
-           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="nonceBox">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-          <property name="textInteractionFlags">
-           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLabel" name="timeBox">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-          <property name="textInteractionFlags">
-           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="merkleLabel">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>Block Merkle:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="hardLabel">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>Block Difficulty:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="nonceLabel">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>Block nNonce:</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLabel" name="merkleBox">
+         <widget class="QLabel" name="rewardBox">
           <property name="minimumSize">
            <size>
-            <width>187</width>
+            <width>550</width>
             <height>0</height>
            </size>
           </property>
@@ -484,7 +529,7 @@
            <string notr="true">QLabel { border: none;}</string>
           </property>
           <property name="text">
-           <string>0x0</string>
+           <string>N/A</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -492,25 +537,12 @@
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="bitsLabel">
+         <widget class="QLabel" name="merkleLabel">
           <property name="styleSheet">
            <string notr="true">QLabel { border: none;}</string>
           </property>
           <property name="text">
-           <string>Block nBits:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QLabel" name="hardBox">
-          <property name="styleSheet">
-           <string notr="true">QLabel { border: none;}</string>
-          </property>
-          <property name="text">
-           <string>0.00</string>
-          </property>
-          <property name="textInteractionFlags">
-           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+           <string>Block Merkle:</string>
           </property>
          </widget>
         </item>
