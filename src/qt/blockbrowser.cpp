@@ -243,11 +243,11 @@ double BlockBrowser::getTxFees(std::string txid)
     int64 nTxFees = tx.GetValueIn(mapInputs)-tx.GetValueOut();
 
     if(tx.IsCoinStake() || tx.IsCoinBase()) {
-        ui->feesLabel->setText(QString("Reward:"));
+        ui->feesLabel->setText(QString(tr("Reward:")));
         nTxFees *= -1;
     }
     else
-        ui->feesLabel->setText(QString("Fees:"));
+        ui->feesLabel->setText(QString(tr("Fees:")));
 
     return convertCoins(nTxFees);
 }
@@ -288,13 +288,13 @@ void BlockBrowser::updateExplorer(bool block)
         ui->hardBox->setText(QString::number(GetDifficulty(pindex), 'f', 6));
 		
 		if (pindex->IsProofOfStake()) {
-            ui->pawLabel->setText("Block Network Stake Weight:");
-            ui->hardLabel->setText("Block Difficulty (POS):");
+            ui->pawLabel->setText(QString(tr("Block Network Stake Weight:")));
+            ui->hardLabel->setText(QString(tr("Block Difficulty (POS):")));
             ui->pawBox->setText(QString::number(GetPoSKernelPS(pindex), 'f', 3) + " ");
         }
         else {
-            ui->pawLabel->setText("Block Hashrate:");
-            ui->hardLabel->setText("Block Difficulty (POW):");
+            ui->pawLabel->setText(QString(tr("Block Hashrate:")));
+            ui->hardLabel->setText(QString(tr("Block Difficulty (POW):")));
             ui->pawBox->setText(QString::number(getBlockHashrate(height)/1000000, 'f', 3) + " MH/s");			
 		}
     } 
@@ -306,7 +306,7 @@ void BlockBrowser::updateExplorer(bool block)
         double fees = getTxFees(txid);
 
         ui->valueBox->setText(value == -1.0 ? "N/A" : (QString::number(value, 'f', 6) + " DOPE"));
-        ui->txID->setText(QString::fromUtf8(txid.c_str()));
+        ui->txID->setText(value == -1.0 ? "N/A" : (QString::fromUtf8(txid.c_str())));
         ui->outputBox->setText(QString::fromUtf8(getOutputs(txid).c_str()));
         ui->inputBox->setText(QString::fromUtf8(getInputs(txid).c_str()));
         ui->feesBox->setText(fees == -1.0 ? "N/A" : (QString::number(fees, 'f', 6) + " DOPE"));

@@ -24,10 +24,10 @@ SignVerifyMessageDialog::SignVerifyMessageDialog(QWidget *parent) :
 
 #if (QT_VERSION >= 0x040700)
     /* Do not move this to the XML file, Qt before 4.7 will choke on it */
-    ui->addressIn_SM->setPlaceholderText(tr("Enter a valid Dopecoin address"));
+    ui->addressIn_SM->setPlaceholderText(tr("Enter a Dopecoin address (e.g. 4LuH5c1bietK9AqY9T3gHuYKqdos5nBErR)"));
     ui->signatureOut_SM->setPlaceholderText(tr("Click \"Sign Message\" to generate signature"));
 
-    ui->addressIn_VM->setPlaceholderText(tr("Enter a valid Dopecoin address"));
+    ui->addressIn_VM->setPlaceholderText(tr("Enter a Dopecoin address (e.g. 4LuH5c1bietK9AqY9T3gHuYKqdos5nBErR)"));
     ui->signatureIn_VM->setPlaceholderText(tr("Enter Dopecoin signature"));
 #endif
 

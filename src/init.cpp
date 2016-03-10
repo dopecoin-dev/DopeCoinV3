@@ -224,12 +224,12 @@ std::string HelpMessage()
 {
     string strUsage = _("Options:") + "\n" +
         "  -?                     " + _("This help message") + "\n" +
-        "  -conf=<file>           " + _("Specify configuration file (default: Dopecoin.conf)") + "\n" +
-        "  -pid=<file>            " + _("Specify pid file (default: Dopecoind.pid)") + "\n" +
+        "  -conf=<file>           " + _("Specify configuration file (default: DopeCoin.conf)") + "\n" +
+        "  -pid=<file>            " + _("Specify pid file (default: dopecoind.pid)") + "\n" +
         "  -gen                   " + _("Generate coins") + "\n" +
         "  -gen=0                 " + _("Don't generate coins") + "\n" +
         "  -datadir=<dir>         " + _("Specify data directory") + "\n" +
-		"  -wallet=<file>         " + _("Specify wallet file (within data directory)") + "\n" +
+		"  -wallet=<file>         " + _("Specify wallet file (default: wallet.dat)") + "\n" +
         "  -dbcache=<n>           " + _("Set database cache size in megabytes (default: 25)") + "\n" +
         "  -dblogsize=<n>         " + _("Set database disk log size in megabytes (default: 100)") + "\n" +
         "  -timeout=<n>           " + _("Specify connection timeout in milliseconds (default: 5000)") + "\n" +
@@ -306,9 +306,9 @@ std::string HelpMessage()
         "  -rpcsslprivatekeyfile=<file.pem>         " + _("Server private key (default: server.pem)") + "\n" +
         "  -rpcsslciphers=<ciphers>                 " + _("Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)") + "\n" +
         "\n" + _("Secure messaging options:") + "\n" +
-        "  -nosmsg                                  " + _("Disable secure messaging.") + "\n" +
-        "  -debugsmsg                               " + _("Log extra debug messages.") + "\n" +
-        "  -smsgscanchain                           " + _("Scan the block chain for public key addresses on startup.") + "\n";
+        "  -nosmsg                                  " + _("Disable secure messaging") + "\n" +
+        "  -debugsmsg                               " + _("Log extra debug messages") + "\n" +
+        "  -smsgscanchain                           " + _("Scan the block chain for public key addresses on startup") + "\n";
  
     return strUsage;
 }
@@ -477,7 +477,7 @@ bool AppInit2()
     if (file) fclose(file);
     static boost::interprocess::file_lock lock(pathLockFile.string().c_str());
     if (!lock.try_lock())
-        return InitError(strprintf(_("Cannot obtain a lock on data directory %s.  Dopecoin is probably already running."), strDataDir.c_str()));
+        return InitError(strprintf(_("Cannot obtain a lock on data directory %s. Dopecoin is probably already running."), strDataDir.c_str()));
 
 #if !defined(WIN32) && !defined(QT_GUI)
     if (fDaemon)

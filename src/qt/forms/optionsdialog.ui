@@ -349,7 +349,7 @@
           <string>Whether to show coin control features or not.</string>
          </property>
          <property name="text">
-          <string>Display coin &amp;control features (for experts only!)</string>
+          <string>Enable coin &amp;control features</string>
          </property>
         </widget>
        </item>

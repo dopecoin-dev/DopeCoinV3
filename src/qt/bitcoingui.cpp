@@ -291,13 +291,13 @@ void BitcoinGUI::createActions()
     tabGroup->addAction(addressBookAction);
 
     messageAction = new QAction(QIcon(":/icons/smessage"), tr("&Messaging"), this);
-    messageAction->setToolTip(tr("View and Send Encrypted messages"));
+    messageAction->setToolTip(tr("View and send encrypted messages"));
     messageAction->setCheckable(true);
     messageAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_8));
     tabGroup->addAction(messageAction);
     
     blockAction = new QAction(QIcon(":/icons/blocks"), tr("&Block Explorer"), this);
-    blockAction->setToolTip(tr("Explore the BlockChain"));
+    blockAction->setToolTip(tr("Explore the blockchain"));
     blockAction->setCheckable(true);
     blockAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
     tabGroup->addAction(blockAction);
