@@ -29,6 +29,7 @@ namespace Checkpoints
 		(  500000, uint256("0x3b697862f340ea228a06169a741fbe1a214fac1273f4c4a45bf9ee7e05015b51") )		
 		(  750000, uint256("0x936faf6f62782ce080a9b7d70935b695a0259ffe18b0b4c2207afe961b05f867") )
         ( 1000000, uint256("0xedad4aa4ee4e1815c1dc068627596fbbcbeaec4f4b2f07dcbb8aa9caed7a733e") )
+		( 1175000, uint256("0xe6faede37b4ba2dce2772e454a46b1ca8c1607b5d31e0034f417f80bd1ae73b1") )
 		;
 
     static MapCheckpoints mapCheckpointsTestnet =
@@ -354,16 +355,7 @@ namespace Checkpoints
         return (nBestHeight >= pindexSync->nHeight + nCoinbaseMaturity ||
                 pindexSync->GetBlockTime() + nStakeMinAge < GetAdjustedTime()); // not interesting
     }
-
-    // Is the sync-checkpoint too old?
-    bool IsSyncCheckpointTooOld(unsigned int nSeconds)
-    {
-        LOCK(cs_hashSyncCheckpoint);
-        // sync-checkpoint should always be accepted block
-        assert(mapBlockIndex.count(hashSyncCheckpoint));
-        const CBlockIndex* pindexSync = mapBlockIndex[hashSyncCheckpoint];
-        return (pindexSync->GetBlockTime() + nSeconds < GetAdjustedTime());
-    }
+	
 }
 
 // ppcoin: sync-checkpoint master key
