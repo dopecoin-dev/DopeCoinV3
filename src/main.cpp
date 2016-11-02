@@ -46,7 +46,11 @@ static CBigNum bnProofOfStakeLimitTestNet(~uint256(0) >> 20);
 unsigned int nStakeMinAge           = 60 * 60 * 24;         // minimum age for coin age: 24h
 unsigned int nStakeMinAgeNew        = 60 * 60 * 24;         // minimum age for coin age: 24h
 unsigned int nStakeMaxAge           = 60 * 60 * 24 * 42;    // stake age of full weight: 42d
-unsigned int nStakeTargetSpacing    = 30;                   // 45 sec block spacing
+
+// 30 sec block spacing
+int64 nStakeTargetSpacing = 30;
+int64 nTargetTimespan = 30 * 30;
+int64 nTargetSpacingWorkMax = 3 * nStakeTargetSpacing; 
 
 int64 nProofOfWorkStartTime = 1415350825;
 int64 nChainStartTime = 1414497214;
@@ -1027,9 +1031,6 @@ int64 GetProofOfStakeReward(int64 nCoinAge, unsigned int nBits, unsigned int nTi
     return nSubsidy;
 }
 
-static const int64 nTargetTimespan = 30 * 30;
-static const int64 nTargetSpacingWorkMax = 3 * nStakeTargetSpacing; 
-
 //
 // maximum nBits value could possible be required nTime after
 // minimum proof-of-work required was nBase
@@ -1080,6 +1081,13 @@ const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, bool fProofOfSta
 
 unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfStake) 
 {
+
+    if (pindexBest->nHeight >= 1350000) {
+        nStakeTargetSpacing = 60;
+        nTargetTimespan = 60 * 60;
+        nTargetSpacingWorkMax = 3 * nStakeTargetSpacing; 
+    }
+
     CBigNum bnTargetLimit = bnProofOfWorkLimit;
 
     if(fProofOfStake)
@@ -1087,7 +1095,7 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
         // Proof-of-Stake blocks has own target limit since nVersion=3 supermajority on mainNet and always on testNet
         bnTargetLimit = bnProofOfStakeLimit;
     }
-
+    
     if (pindexLast == NULL)
         return bnTargetLimit.GetCompact(); // genesis block
 
