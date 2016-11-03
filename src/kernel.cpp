@@ -36,9 +36,7 @@ bool IsProtocolMinStakeAgeChange(unsigned int nTimeCoinStake)
 static std::map<int, unsigned int> mapStakeModifierCheckpoints =
     boost::assign::map_list_of
         (       0, 0xfd11f4e7u )
-		(  200000, 0x81d10d84u )
 		(  500000, 0xfadce2bcu )
-		(  750000, 0xb05b104fu )
 		( 1000000, 0x474a7897u )
 		( 1175000, 0x2514d2b3u )
 		( 1345600, 0xe224b22fu )
