@@ -52,6 +52,11 @@ int64 nStakeTargetSpacing = 30;
 int64 nTargetTimespan = 30 * 30;
 int64 nTargetSpacingWorkMax = 3 * nStakeTargetSpacing; 
 
+// 60 sec block spacing
+int64 nStakeTargetSpacing2 = 60;
+int64 nTargetTimespan2 = 60 * 60;
+int64 nTargetSpacingWorkMax2 = 3 * nStakeTargetSpacing2; 
+
 int64 nProofOfWorkStartTime = 1415350825;
 int64 nChainStartTime = 1414497214;
 int nCoinbaseMaturity = 60;
@@ -1082,12 +1087,6 @@ const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, bool fProofOfSta
 unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfStake) 
 {
 
-    if (pindexBest->nHeight >= 1350000) {
-        nStakeTargetSpacing = 60;
-        nTargetTimespan = 60 * 60;
-        nTargetSpacingWorkMax = 3 * nStakeTargetSpacing; 
-    }
-
     CBigNum bnTargetLimit = bnProofOfWorkLimit;
 
     if(fProofOfStake)
@@ -1107,14 +1106,45 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
         return bnTargetLimit.GetCompact(); // second block
 
     int64 nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime();
-	if(nActualSpacing < 0)
-	{
-		nActualSpacing = 1;
-	}
-	else if(nActualSpacing > nTargetTimespan)
-	{
-		nActualSpacing = nTargetTimespan;
-	}
+
+    if (pindexBest->nHeight >= 1350000) {
+
+    if(nActualSpacing < 0)
+    {
+        nActualSpacing = 1;
+    }
+    else if(nActualSpacing > nTargetTimespan2)
+    {
+        nActualSpacing = nTargetTimespan2;
+    }
+
+    // ppcoin: target change every block
+    // ppcoin: retarget with exponential moving toward target spacing
+    CBigNum bnNew;
+    bnNew.SetCompact(pindexPrev->nBits);
+
+    int64 nTargetSpacing = fProofOfStake? nStakeTargetSpacing2 : min(nTargetSpacingWorkMax2, (int64) nStakeTargetSpacing2 * (1 + pindexLast->nHeight - pindexPrev->nHeight));
+    int64 nInterval = nTargetTimespan2 / nTargetSpacing;
+    bnNew *= ((nInterval - 1) * nTargetSpacing + nActualSpacing + nActualSpacing);
+    bnNew /= ((nInterval + 1) * nTargetSpacing);
+
+    if (bnNew > bnTargetLimit)
+        bnNew = bnTargetLimit;
+
+    return bnNew.GetCompact();
+    
+    }
+
+    else {
+
+    if(nActualSpacing < 0)
+    {
+        nActualSpacing = 1;
+    }
+    else if(nActualSpacing > nTargetTimespan)
+    {
+        nActualSpacing = nTargetTimespan;
+    }
 
     // ppcoin: target change every block
     // ppcoin: retarget with exponential moving toward target spacing
@@ -1125,11 +1155,12 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
     int64 nInterval = nTargetTimespan / nTargetSpacing;
     bnNew *= ((nInterval - 1) * nTargetSpacing + nActualSpacing + nActualSpacing);
     bnNew /= ((nInterval + 1) * nTargetSpacing);
-	
+
     if (bnNew > bnTargetLimit)
         bnNew = bnTargetLimit;
 
     return bnNew.GetCompact();
+    } 
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits)
