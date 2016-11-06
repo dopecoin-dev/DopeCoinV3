@@ -5,7 +5,7 @@ Builds:
 
 v.3.0.3.0:
 
-- Set block spacing to 60 seconds (fork at block 1350000)
+- Set block spacing to 60 seconds (fork at block 1375000)
 - Added checkpoints
 - Added RPC calls addnode, stakesplitthreshold, gettxfee
 - Added -wallet option to specify wallet file

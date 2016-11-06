@@ -1107,7 +1107,7 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 
     int64 nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime();
 
-    if (pindexBest->nHeight >= 1350000) {
+    if (pindexBest->nHeight >= 1375000) {
 
     if(nActualSpacing < 0)
     {
