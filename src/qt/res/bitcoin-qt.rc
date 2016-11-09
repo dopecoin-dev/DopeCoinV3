@@ -22,7 +22,7 @@ BEGIN
             VALUE "FileDescription",    "DopeCoin-Qt (OSS GUI client for Dopecoin)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
             VALUE "InternalName",       "DopeCoin-Qt"
-            VALUE "LegalCopyright",     "2009-2012 The Bitcoin developers, 2012-2013 The Dopecoin & PPCoin developers, 2014 The DopeCoin developers"
+            VALUE "LegalCopyright",     "2009-2012 Bitcoin developers, 2011-2016 Peercoin, Novacoin, Shadowcash Developers, 2014-2016 Dopecoin developers"
             VALUE "LegalTrademarks1",   "Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
             VALUE "OriginalFilename",   "DopeCoin-Qt.exe"
             VALUE "ProductName",        "DopeCoin-Qt"

@@ -3,7 +3,6 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 USE_UPNP:=0
-USE_IPV6:=1
 
 LINK:=$(CXX)
 
@@ -45,9 +44,6 @@ ifneq (${USE_UPNP}, -)
 	DEFS += -DUSE_UPNP=$(USE_UPNP)
 endif
 
-ifneq (${USE_IPV6}, -)
-	DEFS += -DUSE_IPV6=$(USE_IPV6)
-endif
 
 LIBS+= \
  -Wl,-B$(LMODE2) \
@@ -147,7 +143,7 @@ leveldb/libleveldb.a:
 obj/txdb-leveldb.o: leveldb/libleveldb.a
 
 test check: test_dopecoin FORCE
-	./test_BottleCaps
+	./test_dopecoin
 
 # auto-generated dependencies:
 -include obj/*.P

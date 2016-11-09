@@ -1,10 +1,11 @@
 TEMPLATE = app
 TARGET = DopeCoin-Qt
-VERSION = 3.0.2.0
+VERSION = 3.0.3.0
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
 CONFIG += thread
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32 {
 	CONFIG += static
@@ -15,6 +16,20 @@ QT += network
 
 # UNCOMMENT THIS SECTION TO BUILD ON WINDOWS
 # Change paths if needed, these use the foocoin/deps.git repository locations
+
+win32 {
+	OPENSSL_LIB_PATH = C:\deps\openssl-1.0.2g
+	OPENSSL_INCLUDE_PATH = C:\deps\openssl-1.0.2g\include
+	MINIUPNPC_INCLUDE_PATH = C:\deps
+	MINIUPNPC_LIB_PATH = C:\deps\miniupnpc
+	QRENCODE_INCLUDE_PATH = C:\deps\qrencode-3.4.4
+	QRENCODE_LIB_PATH = C:\deps\qrencode-3.4.4\.libs
+	BDB_INCLUDE_PATH = C:\deps\db-4.8.30.NC\build_unix
+	BDB_LIB_PATH = C:\deps\db-4.8.30.NC\build_unix
+	BOOST_LIB_SUFFIX=-mgw53-mt-s-1_57
+	BOOST_INCLUDE_PATH = C:\deps\boost_1_57_0
+	BOOST_LIB_PATH = C:\deps\boost_1_57_0\stage\lib
+}
 
 macx {
 	OPENSSL_LIB_PATH = /usr/local/opt/openssl/lib
@@ -93,18 +108,6 @@ contains(USE_DBUS, 1) {
     QT += dbus
 }
 
-# use: qmake "USE_IPV6=1" ( enabled by default; default)
-#  or: qmake "USE_IPV6=0" (disabled by default)
-#  or: qmake "USE_IPV6=-" (not supported)
-contains(USE_IPV6, -) {
-    message(Building without IPv6 support)
-} else {
-    message(Building with IPv6 support)
-    count(USE_IPV6, 0) {
-        USE_IPV6=1
-    }
-    DEFINES += USE_IPV6=$$USE_IPV6
-}
 
 contains(BITCOIN_NEED_QT_PLUGINS, 1) {
     DEFINES += BITCOIN_NEED_QT_PLUGINS
@@ -208,8 +211,6 @@ HEADERS += src/qt/bitcoingui.h \
     src/clientversion.h \
     src/qt/dopesend.h \
     src/qt/httpsocket.h \
-    src/qt/serveur.h \
-    src/qt/chatwindow.h \
     src/qt/sendmessagesdialog.h \
     src/qt/sendmessagesentry.h \
     src/qt/messagemodel.h \
@@ -294,8 +295,6 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/pbkdf2.cpp \
     src/qt/dopesend.cpp \
     src/qt/httpsocket.cpp \
-    src/qt/serveur.cpp \
-    src/qt/chatwindow.cpp \
     src/lz4/lz4.c \
     src/xxhash/xxhash.c \
     src/qt/blockbrowser.cpp
@@ -316,7 +315,6 @@ FORMS += \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
     src/qt/forms/optionsdialog.ui \
-    src/qt/forms/chatwindow.ui \
     src/qt/forms/sendmessagesdialog.ui \
     src/qt/forms/sendmessagesentry.ui \
     src/qt/forms/messagepage.ui \

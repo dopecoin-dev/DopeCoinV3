@@ -92,9 +92,9 @@
        </property>
        <property name="text">
         <string>
+Copyright © 2014-2016 Dopecoin Developers
+Copyright © 2011-2016 Peercoin, Novacoin, Shadowcash Developers
 Copyright © 2009-2012 Bitcoin Developers
-Copyright © 2012 PPCoin Developers
-Copyright © 2014 Dopecoin Developers
 </string>
        </property>
        <property name="textInteractionFlags">
@@ -109,7 +109,7 @@ Copyright © 2014 Dopecoin Developers
        </property>
        <property name="text">
         <string>
-This is experimental software. If you don't treat it as such, you're likely to put an eye out!
+This is experimental software.
 
 Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php.
 

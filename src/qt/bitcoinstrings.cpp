@@ -24,7 +24,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "An error occurred while setting up the RPC port %u for listening on IPv6, "
 "falling back to IPv4: %s"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
-"Cannot obtain a lock on data directory %s.  Dopecoin is probably already "
+"Cannot obtain a lock on data directory %s. Dopecoin is probably already "
 "running."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Detach block and address databases. Increases shutdown time (default: 0)"),
@@ -43,6 +43,8 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Execute command when the best block changes (%s in cmd is replaced by block "
 "hash)"),
+QT_TRANSLATE_NOOP("bitcoin-core", ""
+"Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Listen for JSON-RPC connections on <port> (default: 63124 or testnet: 62124)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
@@ -149,10 +151,16 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Set key pool size to <n> (default: 100)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Set maximum block size in bytes (default: 250000)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Set minimum block size in bytes (default: 0)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Shrink debug.log file on client startup (default: 1 when no -debug)"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Specify configuration file (default: Dopecoin.conf)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Specify configuration file (default: DopeCoin.conf)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specify connection timeout in milliseconds (default: 5000)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specify data directory"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Specify pid file (default: Dopecoind.pid)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Specify pid file (default: dopecoind.pid)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Specify wallet file (default: wallet.dat)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Listen for connections on <port> (default: 31490 or testnet: 32490)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Find peers using DNS lookup (default: 0)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Disable sync checkpoints (default: 0)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Completely disable debug.log"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Disable staking - handy feature for exchanges. Disables the staking thread."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specify your own public address"),
 QT_TRANSLATE_NOOP("bitcoin-core", "This help message"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Threshold for disconnecting misbehaving peers (default: 100)"),
@@ -174,4 +182,11 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Wallet needed to be rewritten: restart Dopeco
 QT_TRANSLATE_NOOP("bitcoin-core", "Warning: Disk space is low!"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Warning: This version is obsolete, upgrade required!"),
 QT_TRANSLATE_NOOP("bitcoin-core", "wallet.dat corrupt, salvage failed"),
+
+// Secure messaging
+
+QT_TRANSLATE_NOOP("bitcoin-core", "Secure messaging options:"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Disable secure messaging"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Log extra debug messages"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Scan the block chain for public key addresses on startup"),
 };

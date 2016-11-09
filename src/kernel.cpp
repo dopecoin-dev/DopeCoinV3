@@ -35,7 +35,12 @@ bool IsProtocolMinStakeAgeChange(unsigned int nTimeCoinStake)
 // Hard checkpoints of stake modifiers to ensure they are deterministic
 static std::map<int, unsigned int> mapStakeModifierCheckpoints =
     boost::assign::map_list_of
-        ( 0, 0xfd11f4e7u )
+        (       0, 0xfd11f4e7u )
+		(  500000, 0xfadce2bcu )
+		( 1000000, 0x474a7897u )
+		( 1175000, 0x2514d2b3u )
+		( 1345600, 0xe224b22fu )
+		( 1346950, 0xf832f006u )
 	;
 
 // Get time weight

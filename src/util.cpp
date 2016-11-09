@@ -164,7 +164,7 @@ void RandAddSeedPerfmon()
     if (ret == ERROR_SUCCESS)
     {
         RAND_add(pdata, nSize, nSize/100.0);
-        memset(pdata, 0, nSize);
+        OPENSSL_cleanse(pdata, nSize);
         printf("RandAddSeed() %lu bytes\n", nSize);
     }
 #endif
@@ -302,7 +302,7 @@ string vstrprintf(const char *format, va_list ap)
     char* p = buffer;
     int limit = sizeof(buffer);
     int ret;
-    loop
+    while (true) //presstab qt5
     {
         va_list arg_ptr;
         va_copy(arg_ptr, ap);
@@ -362,7 +362,7 @@ void ParseString(const string& str, char c, vector<string>& v)
         return;
     string::size_type i1 = 0;
     string::size_type i2;
-    loop
+    while (true) //presstab qt5
     {
         i2 = str.find(c, i1);
         if (i2 == str.npos)
@@ -524,7 +524,7 @@ vector<unsigned char> ParseHex(const char* psz)
 {
     // convert hex dump to vector
     vector<unsigned char> vch;
-    loop
+    while (true) //presstab qt5
     {
         while (isspace(*psz))
             psz++;
@@ -978,7 +978,7 @@ string DecodeBase32(const string& str)
 
 bool WildcardMatch(const char* psz, const char* mask)
 {
-    loop
+    while (true) //presstab qt5
     {
         switch (*mask)
         {
@@ -1026,12 +1026,6 @@ static std::string FormatException(std::exception* pex, const char* pszThread)
     else
         return strprintf(
             "UNKNOWN EXCEPTION       \n%s in %s       \n", pszModule, pszThread);
-}
-
-void LogException(std::exception* pex, const char* pszThread)
-{
-    std::string message = FormatException(pex, pszThread);
-    printf("\n%s", message.c_str());
 }
 
 void PrintException(std::exception* pex, const char* pszThread)
@@ -1216,8 +1210,8 @@ void ShrinkDebugFile()
     {
         // Restart the file with some of the end
         char pch[200000];
-        fseek(file, -sizeof(pch), SEEK_END);
-        int nBytes = fread(pch, 1, sizeof(pch), file);
+        fseek(file, -((long long)sizeof(pch)), SEEK_END);
+        size_t nBytes = fread(pch, 1, sizeof(pch), file);
         fclose(file);
 
         file = fopen(pathLog.string().c_str(), "w");

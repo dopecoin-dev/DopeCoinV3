@@ -129,7 +129,7 @@
              <cursorShape>IBeamCursor</cursorShape>
             </property>
             <property name="toolTip">
-             <string>Your current balance</string>
+             <string>Your current spendable balance</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QLabel { color: #2C590C; border: none; }</string>
@@ -230,6 +230,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="cursor">
+             <cursorShape>IBeamCursor</cursorShape>
+            </property>
             <property name="toolTip">
              <string>Mined balance that has not yet matured</string>
             </property>
@@ -243,7 +246,7 @@
              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
             </property>
            </widget>
-          </item>                   
+          </item>
           <item row="4" column="0">
            <widget class="QLabel" name="labelMintedText">
             <property name="styleSheet">
@@ -262,6 +265,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="cursor">
+             <cursorShape>IBeamCursor</cursorShape>
+            </property>
             <property name="toolTip">
              <string>Total number of coins made by POS</string>
             </property>
@@ -275,14 +281,14 @@
              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
             </property>
            </widget>
-          </item> 
+          </item>
           <item row="5" column="0">
            <widget class="QLabel" name="labelTotalText">
             <property name="styleSheet">
              <string notr="true">QLabel { border:none; color: #3B3A3A;}</string>
             </property>
             <property name="text">
-             <string>Total balance:</string>
+             <string>Total:</string>
             </property>
            </widget>
           </item>
@@ -293,6 +299,9 @@
               <weight>75</weight>
               <bold>true</bold>
              </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>IBeamCursor</cursorShape>
             </property>
             <property name="toolTip">
              <string>Your current total balance</string>
@@ -307,7 +316,7 @@
              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
             </property>
            </widget>
-          </item>                                        
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="styleSheet">

@@ -5,7 +5,6 @@
  * The Bitcoin Developers 2011-2012
  */
 #include "bitcoingui.h"
-#include "chatwindow.h"
 #include "blockbrowser.h"
 #include "transactiontablemodel.h"
 #include "addressbookpage.h"
@@ -59,7 +58,10 @@
 #include <QDesktopServices>
 #include <QTimer>
 #include <QDragEnterEvent>
+#if QT_VERSION < 0x050000 //presstab qt5
 #include <QUrl>
+#endif
+#include <QMimeData> //presstab qt5
 #include <QStyle>
 #include <QToolButton>
 #include <QTextDocument>
@@ -119,7 +121,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     toolbar->addAction(addressBookAction);
     toolbar->addAction(lockWalletToggleAction);
     toolbar->addAction(messageAction);
-    toolbar->addAction(chatAction);
     toolbar->addAction(blockAction);
     toolbar->addAction(exportAction);
     
@@ -143,8 +144,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     
     messagePage = new MessagePage(this);
     
-    chatWindow = new ChatWindow(this);
-    
     blockPage = new BlockBrowser(this);
 
     signVerifyMessageDialog = new SignVerifyMessageDialog(this);
@@ -156,7 +155,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     centralWidget->addWidget(receiveCoinsPage);
     centralWidget->addWidget(sendCoinsPage);
     centralWidget->addWidget(messagePage);
-    centralWidget->addWidget(chatWindow);
     centralWidget->addWidget(blockPage);
     setCentralWidget(centralWidget);
 
@@ -293,19 +291,13 @@ void BitcoinGUI::createActions()
     tabGroup->addAction(addressBookAction);
 
     messageAction = new QAction(QIcon(":/icons/smessage"), tr("&Messaging"), this);
-    messageAction->setToolTip(tr("View and Send Encrypted messages"));
+    messageAction->setToolTip(tr("View and send encrypted messages"));
     messageAction->setCheckable(true);
     messageAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_8));
     tabGroup->addAction(messageAction);
-        
-    chatAction = new QAction(QIcon(":/icons/chat"), tr("&IRC"), this);
-    chatAction->setToolTip(tr("Chat on #dopecoin"));
-    chatAction->setCheckable(true);
-    chatAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
-    tabGroup->addAction(chatAction);
     
     blockAction = new QAction(QIcon(":/icons/blocks"), tr("&Block Explorer"), this);
-    blockAction->setToolTip(tr("Explore the BlockChain"));
+    blockAction->setToolTip(tr("Explore the blockchain"));
     blockAction->setCheckable(true);
     blockAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
     tabGroup->addAction(blockAction);
@@ -322,8 +314,6 @@ void BitcoinGUI::createActions()
     connect(addressBookAction, SIGNAL(triggered()), this, SLOT(gotoAddressBookPage()));
     connect(messageAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(messageAction, SIGNAL(triggered()), this, SLOT(gotoMessagePage()));
-    connect(chatAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect(chatAction, SIGNAL(triggered()), this, SLOT(gotoChatPage()));
     connect(blockAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(blockAction, SIGNAL(triggered()), this, SLOT(gotoBlockPage()));
    
@@ -606,6 +596,32 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
     QString strStatusBarWarnings = clientModel->getStatusBarWarnings();
     QString tooltip;
 
+    QDateTime lastBlockDate = clientModel->getLastBlockDate();
+    int secs = lastBlockDate.secsTo(QDateTime::currentDateTime());
+    QString text;
+
+    // Represent time from last generated block in human readable text
+    if(secs <= 0)
+    {
+        // Fully up to date. Leave text empty.
+    }
+    else if(secs < 60)
+    {
+        text = tr("%n second(s) ago","",secs);
+    }
+    else if(secs < 60*60)
+    {
+        text = tr("%n minute(s) ago","",secs/60);
+    }
+    else if(secs < 24*60*60)
+    {
+        text = tr("%n hour(s) ago","",secs/(60*60));
+    }
+    else
+    {
+        text = tr("%n day(s) ago","",secs/(60*60*24));
+    }
+	
     if(count < nTotalBlocks)
     {
         int nRemainingBlocks = nTotalBlocks - count;
@@ -615,7 +631,7 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
         {
             progressBarLabel->setText(tr("Synchronizing with network..."));
             progressBarLabel->setVisible(true);
-            progressBar->setFormat(tr("~%n block(s) remaining", "", nRemainingBlocks));
+            progressBar->setFormat( (tr("%1 behind (~%2 blocks) %3%").arg(text).arg(nRemainingBlocks).arg(nPercentageDone, 0, 'f', 3)) );
             progressBar->setMaximum(nTotalBlocks);
             progressBar->setValue(count);
             progressBar->setVisible(true);
@@ -642,32 +658,6 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
 
 	tooltip = tr("Current difficulty is %1.").arg(clientModel->GetDifficulty()) + QString("<br>") + tooltip;
 
-    QDateTime lastBlockDate = clientModel->getLastBlockDate();
-    int secs = lastBlockDate.secsTo(QDateTime::currentDateTime());
-    QString text;
-
-    // Represent time from last generated block in human readable text
-    if(secs <= 0)
-    {
-        // Fully up to date. Leave text empty.
-    }
-    else if(secs < 60)
-    {
-        text = tr("%n second(s) ago","",secs);
-    }
-    else if(secs < 60*60)
-    {
-        text = tr("%n minute(s) ago","",secs/60);
-    }
-    else if(secs < 24*60*60)
-    {
-        text = tr("%n hour(s) ago","",secs/(60*60));
-    }
-    else
-    {
-        text = tr("%n day(s) ago","",secs/(60*60*24));
-    }
-
     // Set icon state: spinning if catching up, tick otherwise
     if(secs < 90*60 && count >= nTotalBlocks)
     {
@@ -679,8 +669,9 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
     else
     {
         tooltip = tr("Catching up...") + QString("<br>") + tooltip;
-        labelBlocksIcon->setMovie(syncIconMovie);
-        syncIconMovie->start();
+		labelBlocksIcon->setPixmap(QIcon(":/icons/notsynced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
+        //labelBlocksIcon->setMovie(syncIconMovie);
+        //syncIconMovie->start();
 
         overviewPage->showOutOfSyncWarning(true);
     }
@@ -688,7 +679,7 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
     if(!text.isEmpty())
     {
         tooltip += QString("<br>");
-        tooltip += tr("Last received block was generated %1.").arg(text);
+        tooltip += tr("Last received block was generated %1 ago.").arg(text);
     }
 
     // Don't word-wrap this (fixed-width) tooltip
@@ -860,15 +851,6 @@ void BitcoinGUI::gotoAddressBookPage()
     connect(exportAction, SIGNAL(triggered()), addressBookPage, SLOT(exportClicked()));
 }
 
-void BitcoinGUI::gotoChatPage()
-{
-    chatAction->setChecked(true);
-    centralWidget->setCurrentWidget(chatWindow);
-
-    exportAction->setEnabled(false);
-    disconnect(exportAction, SIGNAL(triggered()), 0, 0);
-}
-
 void BitcoinGUI::gotoBlockPage()
 {
     blockAction->setChecked(true);
@@ -1008,7 +990,11 @@ void BitcoinGUI::encryptWallet(bool status)
 
 void BitcoinGUI::backupWallet()
 {
+	#if QT_VERSION < 0x050000 //presstab qt5
     QString saveDir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+	#else
+	QString saveDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+	#endif
     QString filename = QFileDialog::getSaveFileName(this, tr("Backup Wallet"), saveDir, tr("Wallet Data (*.dat)"));
     if(!filename.isEmpty()) {
         if(!walletModel->backupWallet(filename)) {

@@ -24,8 +24,12 @@ namespace Checkpoints
     //
     static MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
-        (     0, hashGenesisBlockOfficial )
-
+        (       0, hashGenesisBlockOfficial )
+		(  500000, uint256("0x3b697862f340ea228a06169a741fbe1a214fac1273f4c4a45bf9ee7e05015b51") )
+		( 1000000, uint256("0xedad4aa4ee4e1815c1dc068627596fbbcbeaec4f4b2f07dcbb8aa9caed7a733e") )
+		( 1175000, uint256("0xe6faede37b4ba2dce2772e454a46b1ca8c1607b5d31e0034f417f80bd1ae73b1") )
+		( 1345600, uint256("0x3a5e6e70a132bd1948e07a43c7ea2accd3dd4ba12058ee2384c6d5dc10cf9d91") )
+		( 1346950, uint256("0x235904ab3745faae4b4d4664a647c4eedbc2c1235507d07856b4db5121b8396a") )
 		;
 
     static MapCheckpoints mapCheckpointsTestnet =
@@ -351,16 +355,7 @@ namespace Checkpoints
         return (nBestHeight >= pindexSync->nHeight + nCoinbaseMaturity ||
                 pindexSync->GetBlockTime() + nStakeMinAge < GetAdjustedTime()); // not interesting
     }
-
-    // Is the sync-checkpoint too old?
-    bool IsSyncCheckpointTooOld(unsigned int nSeconds)
-    {
-        LOCK(cs_hashSyncCheckpoint);
-        // sync-checkpoint should always be accepted block
-        assert(mapBlockIndex.count(hashSyncCheckpoint));
-        const CBlockIndex* pindexSync = mapBlockIndex[hashSyncCheckpoint];
-        return (pindexSync->GetBlockTime() + nSeconds < GetAdjustedTime());
-    }
+	
 }
 
 // ppcoin: sync-checkpoint master key
